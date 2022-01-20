@@ -1,6 +1,17 @@
 const router = require('express').Router()
 const AdminController = require('../controllers/adminController')
 const {uploadSingle, uploadMultiple} = require('../middlewares/multer')
+const auth = require('../middlewares/auth')
+
+// endpoint login
+router.get('/login', AdminController.viewLogin)
+router.post('/login', AdminController.actionLogin)
+
+// verify user Session
+router.use(auth)
+
+// endpoint logout
+router.get('/logout', AdminController.actionLogout)
 
 // endpoint dashboard
 router.get('/dashboard', AdminController.viewDashboard)
@@ -70,5 +81,8 @@ router.get('/item/activity/:itemid', AdminController.viewActivity)
 router.get('/item/activity/add/:itemid', AdminController.addActivityView)
 router.post('/item/activity/add',uploadSingle, AdminController.addActivityAction)
 router.delete('/item/activity/delete/:activityid',AdminController.deleteActivity)
+
+// endpoint user
+router.post('/generator/user', AdminController.newUser)
 
 module.exports = router;

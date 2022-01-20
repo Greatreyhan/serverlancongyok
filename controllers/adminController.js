@@ -8,9 +8,65 @@ const Item = require('../models/Item')
 const Image = require('../models/Image')
 const Feature = require('../models/Feature')
 const Activity = require('../models/Activity')
+const User = require('../models/Users')
 const fs = require('fs-extra');
 const path = require('path');
+const Users = require('../models/Users')
+const bcrypt = require('bcrypt')
+
 module.exports = {
+
+    // -------------------------- USER ----------------------------------------//
+    viewLogin : async (req,res) =>{
+      try {
+          const alertMessage = req.flash("alertMessage");
+          const alertStatus = req.flash("alertStatus");
+          const alert = { message: alertMessage, status: alertStatus };
+          if(req.session.user == null ||req.session.user == undefined){
+            res.render("index", {
+              alert,
+              title: "Lancongyok | Login",
+            });
+          }
+          else{
+            res.redirect("/admin/dashboard");
+          }
+          
+      } catch (error) {
+            res.redirect("/admin/login");
+      }
+    },
+    actionLogin : async (req,res) =>{
+        const {username, password} = req.body;
+        const user = await Users.findOne({username : username})
+        if(user){
+          const isPasswordMatch = await bcrypt.compare(password, user.password)
+          if(isPasswordMatch){
+
+            req.session.user = {
+              id: user.id,
+              username : user.username
+            }
+
+            res.redirect('/admin/dashboard')
+          }
+          else{
+            req.flash("alertMessage", `Password yang Anda Masukan Salah!`);
+            req.flash("alertStatus", "danger");
+            res.redirect("/admin/login")
+          }
+        }
+        else{
+          req.flash("alertMessage", `Password yang Anda Masukan Salah!`);
+          req.flash("alertStatus", "danger");
+          res.redirect("/admin/login")
+        } 
+    },
+    actionLogout : (req,res) =>{
+      req.session.destroy()
+      res.redirect('/admin/login')
+    },
+    // Dashboard
     viewDashboard : async (req,res) =>{
         try {
             const articles = await Article.find();
@@ -914,5 +970,13 @@ module.exports = {
         res.redirect("/admin/item");
       }
     },
+
+    // User
+    newUser : async (req,res) =>{
+      const admin = await Users.create({
+        username : 'miminlancong',
+        password : 'kemanamana2020'
+      })
+    }
 }
 
