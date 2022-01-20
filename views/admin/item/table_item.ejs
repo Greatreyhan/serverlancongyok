@@ -1,0 +1,48 @@
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <a href="/admin/item/add" class="btn btn-success">Add Item</a>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Price</th>
+                      <th>Country</th>
+                      <th>City</th>
+                      <th>Category</th>
+                      <th>Description</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for(let i = 0; i < items.length; i++){ %>
+                      <tr>
+                        <td><%= items[i].title %></td>
+                        <td><%= items[i].price %></td>
+                        <td><%= items[i].country %></td>
+                        <td><%= items[i].city %></td>
+                        <% for(let j = 0; j < items[i].categoryId.length ; j ++) { %>
+                          <td><%= items[i].categoryId[j].name %></td>
+                        <% } %>
+                        <td><%= items[i].description %></td>
+                        <td>
+                          <form action="/admin/item/delete/<%= items[i].id %>?_method=DELETE" method="POST" >
+                            <a href="/admin/item/edit/<%= items[i].id %>" class="btn btn-warning btn-sm" ><i class="fas fa-edit"></i></a>
+                            <a href="/admin/item/images/<%= items[i].id %>" class="btn btn-success btn-sm" ><i class="fas fa-image"></i></a>
+                            <a href="/admin/item/feature/<%= items[i].id %>" class="btn btn-info btn-sm" ><i class="fas fa-plus"></i></a>
+                            <a href="/admin/item/activity/<%= items[i].id %>" class="btn btn-info btn-sm" ><i class="fas fa-tag"></i></a>
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                          </form>
+                        </td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+             
+
+                </table>
+              </div>
+            </div>
+          </div>

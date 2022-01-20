@@ -36,4 +36,39 @@ router.get('/images/add', AdminController.addImagesView)
 router.post('/images/add', uploadSingle, AdminController.addImagesAction)
 router.delete('/images/delete/:imageid',AdminController.deleteImages)
 
+// endpoint category
+router.get('/category', AdminController.viewCategory)
+router.get('/category/add', AdminController.addCategoryView)
+router.post('/category/add', AdminController.addCategoryAction)
+router.get('/category/edit/:categoryid', AdminController.editCategoryView)
+router.put('/category/edit', AdminController.editCategoryAction)
+router.delete('/category/delete/:categoryid',AdminController.deleteCategoryAction)
+
+// endpoint bank
+router.get('/bank', AdminController.viewBank)
+router.get('/bank/add', AdminController.addBankView)
+router.post('/bank/add', uploadSingle, AdminController.addBankAction)
+router.delete('/bank/delete/:bankid',AdminController.deleteBank)
+
+// endpoint item
+router.get('/item', AdminController.viewItem)
+router.get('/item/add', AdminController.addItemView)
+router.post('/item/add', uploadMultiple, AdminController.addItemAction)
+router.get('/item/images/:itemid', AdminController.showItemImage)
+router.get('/item/edit/:itemid', AdminController.editItemView)
+router.put('/item/edit', uploadMultiple, AdminController.editItemAction)
+router.delete('/item/delete/:itemid',AdminController.deleteItem)
+
+// endpoint feature
+router.get('/item/feature/:itemid', AdminController.viewFeature)
+router.get('/item/feature/add/:itemid', AdminController.addFeatureView)
+router.post('/item/feature/add',uploadSingle, AdminController.addFeatureAction)
+router.delete('/item/feature/delete/:featureid',AdminController.deleteFeature)
+
+// endpoint activity
+router.get('/item/activity/:itemid', AdminController.viewActivity)
+router.get('/item/activity/add/:itemid', AdminController.addActivityView)
+router.post('/item/activity/add',uploadSingle, AdminController.addActivityAction)
+router.delete('/item/activity/delete/:activityid',AdminController.deleteActivity)
+
 module.exports = router;
